@@ -63,10 +63,44 @@ class ServicosController {
     }
 
     public function delete() {
-        $this->servico->id = $_GET['id'];
-        $this->servico->delete();
-        header('Location: index.php?controller=servicos&action=index');
+    
+        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+            $id = intval($_GET['id']); 
+            
+            $this->servico->id = $id;
+    
+            try {
+                
+                if ($this->servico->delete()) {
+                    
+                    header('Location: index.php?controller=servicos&action=index');
+                    exit; 
+                } else {
+                   
+                    $errorMessage = 'Erro:Não é possível deletar serviço com agendamento.';
+                    header('Location: index.php?controller=servicos&action=index&error=' . urlencode($errorMessage));
+                    exit; 
+                }
+            } catch (PDOException $e) {
+               
+                $errorMessage = 'Erro:Não é possível deletar serviço com agendamento.';
+                header('Location: index.php?controller=servicos&action=index&error=' . urlencode($errorMessage));
+                exit; 
+            } catch (Exception $e) {
+               
+                $errorMessage = 'Erro:Não é possível deletar serviço com agendamento.';
+                header('Location: index.php?controller=servicos&action=index&error=' . urlencode($errorMessage));
+                exit; 
+            }
+        } else {
+            
+            $errorMessage = 'Erro: ID inválido.';
+            header('Location: index.php?controller=servicos&action=index&error=' . urlencode($errorMessage));
+            exit; 
+        }
     }
+    
+    
 }
 ?>
 

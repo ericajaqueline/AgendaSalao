@@ -1,5 +1,12 @@
 <?php include 'app/views/header.php'; ?>
 
+<?php
+if (isset($_GET['error'])) {
+    $errorMessage = htmlspecialchars($_GET['error']);
+    echo "<div class='error-message' style='color: red; padding: 10px; border: 1px solid red; margin-bottom: 15px;'>$errorMessage</div>";
+}
+?>
+
 <div class="row justify-content-center">
     <div class="container d-flex align-items-center justify-content-center min-vh-100">
         <div class="col-mt-4">

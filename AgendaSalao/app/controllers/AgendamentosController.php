@@ -11,6 +11,11 @@ class AgendamentosController {
     private $secretaria;
 
     public function __construct() {
+        session_start();
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?controller=login&action=index');
+            exit();
+        }
         $database = new Database();
         $this->db = $database->connect();
         $this->agendamento = new Agendamento($this->db);
